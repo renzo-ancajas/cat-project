@@ -7,14 +7,14 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 const Cat = ({cat}) => {
   const [breed, setBreed] = useState([])
+  const selectedBreed = breed.id
 
 
   const fetchData = async () => {
     await axios
-    .get(`${CAT_BREEDS_API_URL}`)
+    .get(`${CAT_BREEDS_API_URL}${selectedBreed}`)
     .then(response => {
       const apiRes = response.data
-      console.log(`Current breed selected is ${apiRes.id}`)
       setBreed([apiRes])
     })
   }
@@ -22,15 +22,17 @@ const Cat = ({cat}) => {
   useEffect(() => {
     fetchData();
   }, []);
-const { name: breedName, temperment, icon} = cat
+const { name: breedName, temperament, wikipedia_url, image, description} = cat
 return (
   <div>
     <h1>{breedName}</h1>
-    <h2>Temperment:</h2>
-    <ul>
-      {temperment.map(temper => <li key={temperment.name}>{temperment.name}</li>)}
-    </ul>
-    <img src={icon} style={{ width: "500px"}} alt="Cat Icon"></img>
+    <img src={image.url} style={{ width: "300px"}} alt="Cat"></img>
+    <p>Temperament:{temperament}</p>
+    <p>Wiki Link: <a href="url">{wikipedia_url}</a></p>
+    <p>{description}</p>
+    {console.log(cat.image)}
   </div>
 )
 }
+
+export default Cat

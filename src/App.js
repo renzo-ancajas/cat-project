@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Content from './components/content'
+import Search from './components/search'
 
 
 const App = () => {
@@ -18,16 +20,17 @@ const App = () => {
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value)
-    if(search)  {
-      const regex = new RegExp( search, 'i')
-      const searchCat = () => allCats.filter(cat => cat.breed.match(regex))
-      setCats(searchCat)
+    if(search) {
+      const searchCat = new RegExp( search, 'i')
+      const searchedCat = () => allCats.filter(cat => cat.name.match(searchCat))
+      setCats(searchedCat)
     }
   }
 
   return (
     <div>
-      
+      <Search value={search} onChange={handleSearchChange}/>
+      <Content cats={cats} setCats={setCats}/>
     </div>
   )
 }
